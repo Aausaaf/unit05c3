@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <a href="mainpage.html"> <li>Home</li></a>
+             <a href="serach.html"><li style="margin-left: 33vw;">Search</li></a>
+         </ul>
+    </div>
+    <input type="text" id="input" placeholder="Search brewery name.." oninput="debounce(getdatas , 1000)" />
+
+    <div id="list"></div>
+    <script>
+  let list = document.getElementById("list")
+  let input = document.getElementById("input")
+
+  async function getdata()
+  {
+      try
+      {
+         let res  = await fetch(`https://api.openbrewerydb.org/breweries`)
+         let data = await res.json();
+         console.log(data)
+         displaydata(data)
+      }
+      catch(error)
+      {
+         console.log(error)
+      }
+  }
+  getdata()
+
+  async function getdatas()
+  {
+      try
+      {
+         let res  = await fetch(`https://api.openbrewerydb.org/breweries?by_name=${input.value}`)
+         let data = await res.json();
+         console.log(data)
+         displaydata(data)
+      }
+      catch(error)
+      {
+         console.log(error)
+      }
+  }
+
+
+
+  function displaydata(arr)
+  {
+      list.innerHTML = ""
+     arr.forEach(ele => {
+         var div = document.createElement('div')
+         div.setAttribute("class", "div")
+         var name = document.createElement('p')
+         name.innerHTML = "Name : " +  ele.name
+         name.setAttribute("class",name)
+         let brewery_type = document.createElement('p')
+         brewery_type.innerHTML = "Brewery Type : " + ele.brewery_type
+         brewery_type.setAttribute("class","brewery_type")
+         let city = document.createElement('p')
+         city.innerHTML = "City : " + ele.city
+         city.setAttribute("class","city")
+         let state = document.createElement('p')
+         state.innerHTML = "State : " +  ele.state
+         state.setAttribute("class","state")
+
+         let a = document.createElement('a')
+         a.href = "Individual_Brewery_Page.html"
+        let more_button = document.createElement('button')
+        more_button.innerHTML = "MORE DETAILS"
+        a.append(more_button)
+        more_button.onclick =  () => {
+            localStorage.setItem("brewery_id",JSON.stringify(ele.id))
+        }
+        more_button.setAttribute("class","button")
+      
+
+         div.append(name,brewery_type,city,state,a)
+         list.append(div)
+
+         
+     });
+  }
+  let t
+  function debounce (getdata,delay)
+  {
+     if(t)
+     {
+          clearTimeout(t)
+     } 
+     t = setTimeout(function(){
+            getdatas()
+     },delay)
+  }
+
+    </script>
+</body>
+</html>

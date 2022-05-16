@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+           <a href="mainpage.html"> <li>Home</li></a>
+           <a href="serach.html"><li style="margin-left: 33vw;">Search</li></a>
+        </ul>
+           <div id="container"></div>
+
+    </div>
+    <script>
+      let container = document.getElementById("container")
+     
+      let ides = JSON.parse(localStorage.getItem("brewery_id"))
+       console.log(ides)
+       async function datachange()
+  {
+      try
+      {
+         let res  = await fetch(`https://api.openbrewerydb.org/breweries/${ides}`)
+         let data = await res.json();
+         console.log(data)
+        print(data)
+      }
+      catch(error)
+      {
+         console.log(error)
+      }
+  }
+  datachange()
+
+function print(dat)
+{
+    
+  let div1 = document.createElement('div')
+  div1.setAttribute("class","div1")
+  let names = document.createElement('p')
+  names.innerHTML = "Name : " + dat.name
+  names.setAttribute("class","names")
+  let brewery_type = document.createElement('p')
+  brewery_type.innerHTML = "Brewery Type : " + dat.brewery_type;
+  let city = document.createElement('p')
+  city.innerHTML = "city : " + dat.city;
+  city.setAttribute("class","city")
+  let state = document.createElement('p')
+  state.innerHTML = "state : " + dat.state
+  state.setAttribute("calss","state") 
+  let country = document.createElement("p")
+  country.innerHTML = "country : " + dat.country
+  country.setAttribute("class","country")
+  let phone = document.createElement('p')
+  phone.innerHTML = "phone : " + dat.phone
+  phone.setAttribute("class","phone")
+  div1.append(names,brewery_type,city,state,country,phone)
+  container.append(div1)
+
+  
+}
+  
+
+
+
+    </script>
+</body>
+</html>
