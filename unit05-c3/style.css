@@ -122,7 +122,7 @@ body{
 .div1{
     text-align: left;
     margin-left: 10vw;
-    
+    margin-top:3vh;
 }
 .div1 p 
 {
@@ -144,6 +144,14 @@ body{
     border-radius: 3vw;
     margin-left: 5.3vw;
     margin-top: 2vh;
+        cursor: pointer;
+
+}
+.button:hover
+{
+   
+    border: 0.4vh solid white;
+    background-color: transparent;
 
 }
 
